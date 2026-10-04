@@ -1,0 +1,324 @@
+/* 计算器前端样式：明暗双主题 */
+
+:root {
+  --bg: #f2f4f8;
+  --card: #ffffff;
+  --text: #1f2933;
+  --muted: #7b8794;
+  --key: #edf1f7;
+  --key-hover: #dde4ee;
+  --op: #4c6ef5;
+  --op-text: #ffffff;
+  --eq: #2f9e44;
+  --danger: #e03131;
+  --border: #e4e8ef;
+  --shadow: 0 8px 24px rgba(20, 30, 60, 0.08);
+}
+
+body[data-theme="dark"] {
+  --bg: #12151c;
+  --card: #1c212b;
+  --text: #e9edf4;
+  --muted: #8b95a5;
+  --key: #262c38;
+  --key-hover: #313847;
+  --op: #5c7cfa;
+  --eq: #37b24d;
+  --border: #2a3140;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background 0.25s, color 0.25s;
+}
+
+.app {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.topbar h1 {
+  font-size: 22px;
+}
+
+.icon-btn {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover {
+  background: var(--key-hover);
+}
+
+.icon-btn.danger {
+  color: var(--danger);
+  border-color: transparent;
+  background: transparent;
+  width: 28px;
+  height: 28px;
+  font-size: 13px;
+}
+
+/* ---------- 布局 ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(280px, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+/* ---------- 显示屏 ---------- */
+.display {
+  background: var(--key);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  min-height: 92px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  overflow-x: auto;
+}
+
+.expression {
+  font-size: 18px;
+  color: var(--muted);
+  text-align: right;
+  min-height: 24px;
+  white-space: nowrap;
+}
+
+.result {
+  font-size: 34px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.error-bar {
+  background: rgba(224, 49, 49, 0.12);
+  color: var(--danger);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+/* ---------- 按键 ---------- */
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.key {
+  border: none;
+  border-radius: 12px;
+  background: var(--key);
+  color: var(--text);
+  font-size: 20px;
+  height: 54px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.05s;
+}
+
+.key:hover {
+  background: var(--key-hover);
+}
+
+.key:active {
+  transform: scale(0.96);
+}
+
+.key-op {
+  background: var(--op);
+  color: var(--op-text);
+}
+
+.key-op:hover {
+  filter: brightness(1.08);
+}
+
+.key-eq {
+  background: var(--eq);
+  color: #fff;
+}
+
+.key-eq:hover {
+  filter: brightness(1.08);
+}
+
+.key-fn {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ---------- 历史 ---------- */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.history-header h2 {
+  font-size: 17px;
+}
+
+.badge {
+  display: inline-block;
+  min-width: 26px;
+  text-align: center;
+  background: var(--key);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-right: 8px;
+}
+
+.text-btn {
+  border: none;
+  background: transparent;
+  color: var(--op);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.text-btn.danger {
+  color: var(--danger);
+}
+
+.text-btn:hover {
+  text-decoration: underline;
+}
+
+.history-list {
+  list-style: none;
+  max-height: 430px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: var(--key);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.history-body {
+  flex: 1;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.history-body:hover .history-expr {
+  color: var(--op);
+}
+
+.history-expr {
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 32px 0;
+  font-size: 14px;
+}
+
+/* ---------- 底部 ---------- */
+.footer {
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.footer input {
+  flex: 1;
+  min-width: 220px;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.conn-status {
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: var(--key);
+}
+
+.conn-status.ok {
+  color: var(--eq);
+}
+
+.conn-status.bad {
+  color: var(--danger);
+}
