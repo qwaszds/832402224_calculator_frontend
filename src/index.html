@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>计算器系统 · 前后端分离</title>
+  <title>Calculator · Front-End / Back-End Separation</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <div class="app">
-    <!-- 顶栏 -->
+    <!-- Top bar -->
     <header class="topbar">
       <h1>🧮 Calculator</h1>
       <div class="topbar-actions">
-        <button id="theme-toggle" class="icon-btn" title="切换主题">🌙</button>
+        <button id="theme-toggle" class="icon-btn" title="Toggle theme">🌙</button>
       </div>
     </header>
 
     <main class="layout">
-      <!-- 计算器区域 -->
+      <!-- Calculator -->
       <section class="calculator card">
         <div class="display">
           <div id="expression" class="expression" placeholder="0"></div>
@@ -54,27 +54,27 @@
         </div>
       </section>
 
-      <!-- 历史记录区域 -->
+      <!-- History -->
       <section class="history card">
         <div class="history-header">
-          <h2>计算历史</h2>
+          <h2>History</h2>
           <div>
             <span id="history-count" class="badge">0</span>
-            <button id="clear-all" class="text-btn danger">清空全部</button>
+            <button id="clear-all" class="text-btn danger">Clear All</button>
           </div>
         </div>
         <ul id="history-list" class="history-list">
-          <li class="history-empty">暂无记录</li>
+          <li class="history-empty">No records yet</li>
         </ul>
       </section>
     </main>
 
-    <!-- 底部：后端地址配置 -->
+    <!-- Footer: backend API configuration -->
     <footer class="footer">
-      <label for="api-base">后端地址：</label>
+      <label for="api-base">Backend API:</label>
       <input id="api-base" type="text" spellcheck="false" />
-      <button id="save-api" class="text-btn">保存</button>
-      <span id="conn-status" class="conn-status">未连接</span>
+      <button id="save-api" class="text-btn">Save</button>
+      <span id="conn-status" class="conn-status">Disconnected</span>
     </footer>
   </div>
 

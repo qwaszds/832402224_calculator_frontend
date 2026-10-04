@@ -1,10 +1,10 @@
 /**
- * 后端 API 封装：所有计算与历史操作都通过网络请求完成，
- * 前端不进行任何表达式求值。
+ * Backend API wrapper: every calculation and history operation goes
+ * through network requests. The front end never evaluates expressions.
  */
 const api = {
   /**
-   * 提交表达式到后端计算。
+   * Submit an expression to the back end for calculation.
    * @param {string} expression
    * @returns {Promise<{success: boolean, expression?: string, result?: number, message?: string}>}
    */
@@ -17,13 +17,13 @@ const api = {
     return resp.json();
   },
 
-  /** 查询全部计算历史。 */
+  /** Query all calculation history. */
   async getHistory() {
     const resp = await fetch(`${getApiBase()}/api/history`);
     return resp.json();
   },
 
-  /** 删除指定历史记录。 */
+  /** Delete one history record. */
   async deleteHistory(id) {
     const resp = await fetch(`${getApiBase()}/api/history/${id}`, {
       method: "DELETE",
@@ -31,7 +31,7 @@ const api = {
     return resp.json();
   },
 
-  /** 清空全部历史记录（扩展功能）。 */
+  /** Clear all history records (extended feature). */
   async clearHistory() {
     const resp = await fetch(`${getApiBase()}/api/history`, {
       method: "DELETE",

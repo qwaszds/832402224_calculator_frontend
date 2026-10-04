@@ -1,8 +1,9 @@
 /**
- * 前端配置：后端 API 地址。
- * 可通过界面底部输入框修改，修改后保存在 localStorage 中。
+ * Front-end configuration: backend API base URL.
+ * It can be changed from the input box at the bottom of the page;
+ * the value is stored in localStorage.
  */
-const DEFAULT_API_BASE = "http://127.0.0.1:8000";
+const DEFAULT_API_BASE = "https://eight32402224-calculator-backend.onrender.com";
 
 function getApiBase() {
   return localStorage.getItem("apiBase") || DEFAULT_API_BASE;

@@ -1,6 +1,8 @@
 /**
- * 界面交互逻辑：按钮输入、键盘输入、请求后端、渲染结果与历史。
- * 注意：本文件不包含任何表达式求值逻辑，结果一律由后端返回。
+ * UI interaction logic: button input, keyboard input, requests to the
+ * back end, rendering of results and history.
+ * Note: this file contains no expression evaluation logic at all;
+ * every result comes back from the back end.
  */
 
 (function () {
@@ -21,8 +23,8 @@
   let expression = "";
   let lastResult = null;
 
-  // ---------- 显示 ----------
-  /** 将内部表达式（* /）显示为（× ÷）。 */
+  // ---------- Display ----------
+  /** Render the internal expression (* /) with display symbols (x /). */
   function pretty(text) {
     return text.replace(/\*/g, "×").replace(/\//g, "÷");
   }
@@ -41,10 +43,10 @@
     errorBar.textContent = "";
   }
 
-  // ---------- 输入 ----------
+  // ---------- Input ----------
   function appendValue(value) {
     clearError();
-    // 若上一步刚完成计算且输入的是数字，则开始新的表达式
+    // Right after a calculation, typing a digit starts a new expression
     if (lastResult !== null && /[0-9.]/.test(value)) {
       expression = "";
     }
@@ -68,11 +70,11 @@
     render();
   }
 
-  // ---------- 计算（核心：请求后端完成） ----------
+  // ---------- Calculation (core: handled by the back end) ----------
   async function equals() {
     clearError();
     if (!expression.trim()) {
-      showError("请输入表达式");
+      showError("Please enter an expression");
       return;
     }
     try {
@@ -84,18 +86,18 @@
         render();
         await refreshHistory();
       } else {
-        showError(data.message || "计算失败");
+        showError(data.message || "Calculation failed");
       }
     } catch (err) {
-      showError("无法连接后端服务，请检查后端是否已启动");
+      showError("Cannot connect to the backend. Please make sure it is running.");
     }
   }
 
-  // ---------- 历史 ----------
+  // ---------- History ----------
   function renderHistory(items) {
     historyCount.textContent = items.length;
     if (items.length === 0) {
-      historyList.innerHTML = '<li class="history-empty">暂无记录</li>';
+      historyList.innerHTML = '<li class="history-empty">No records yet</li>';
       return;
     }
     historyList.innerHTML = "";
@@ -116,7 +118,7 @@
 
       const delBtn = document.createElement("button");
       delBtn.className = "icon-btn danger";
-      delBtn.title = "删除该记录";
+      delBtn.title = "Delete this record";
       delBtn.textContent = "✕";
       delBtn.addEventListener("click", () => deleteItem(item.id));
 
@@ -148,32 +150,32 @@
     try {
       const data = await api.deleteHistory(id);
       if (!data.success) {
-        showError(data.message || "删除失败");
+        showError(data.message || "Delete failed");
       }
       await refreshHistory();
     } catch (err) {
-      showError("删除失败：无法连接后端服务");
+      showError("Delete failed: cannot connect to the backend.");
     }
   }
 
   async function clearAllHistory() {
-    if (!window.confirm("确定要清空全部计算历史吗？")) return;
+    if (!window.confirm("Clear all calculation history? Are you sure?")) return;
     try {
       await api.clearHistory();
       await refreshHistory();
     } catch (err) {
-      showError("清空失败：无法连接后端服务");
+      showError("Clear failed: cannot connect to the backend.");
     }
   }
 
-  // ---------- 连接状态 ----------
+  // ---------- Connection status ----------
   function setConnection(ok) {
-    connStatus.textContent = ok ? "已连接" : "未连接";
+    connStatus.textContent = ok ? "Connected" : "Disconnected";
     connStatus.classList.toggle("ok", ok);
     connStatus.classList.toggle("bad", !ok);
   }
 
-  // ---------- 主题 ----------
+  // ---------- Theme ----------
   function initTheme() {
     const saved = localStorage.getItem("theme") || "light";
     document.body.dataset.theme = saved;
@@ -187,7 +189,7 @@
     themeToggle.textContent = next === "dark" ? "☀️" : "🌙";
   });
 
-  // ---------- 事件绑定 ----------
+  // ---------- Event binding ----------
   document.querySelectorAll(".key").forEach((btn) => {
     btn.addEventListener("click", () => {
       const action = btn.dataset.action;
@@ -199,7 +201,7 @@
     });
   });
 
-  // 键盘快捷键（扩展功能）
+  // Keyboard shortcuts (extended feature)
   document.addEventListener("keydown", (event) => {
     const key = event.key;
     if (/^[0-9.+\-*/()]$/.test(key)) {
@@ -223,7 +225,7 @@
     refreshHistory();
   });
 
-  // ---------- 初始化 ----------
+  // ---------- Init ----------
   initTheme();
   render();
   refreshHistory();
