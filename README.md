@@ -1,85 +1,89 @@
-# 计算器系统 · 前端（Calculator Frontend）
+# Calculator Frontend
 
-前后端分离计算器系统的前端客户端（Web 应用）。负责用户界面、按键交互、表达式输入、结果展示、计算历史展示与删除。**前端不进行任何表达式求值**，所有计算结果均来自后端 API。
+Front-end client (web application) of the calculator system with front-end / back-end separation. It handles the user interface, button interaction, expression input, result display and history display / deletion. **The front end performs no expression evaluation at all**; every result comes from the back-end API.
 
-## 1. 技术栈
+## 1. Tech Stack
 
-| 组件 | 技术 |
+| Component | Technology |
 | --- | --- |
-| 页面 | HTML5 |
-| 样式 | CSS3（明暗双主题，CSS 变量） |
-| 脚本 | 原生 JavaScript（ES6，无框架、无构建步骤） |
-| 网络请求 | Fetch API |
+| Markup | HTML5 |
+| Styling | CSS3 (light & dark themes via CSS variables) |
+| Scripting | Vanilla JavaScript (ES6, no framework, no build step) |
+| Networking | Fetch API |
 
-> 选择原生 HTML/CSS/JS 是为了让项目零依赖、零构建，任何静态服务器（或直接打开 HTML）都能运行，便于助教检查。
+> Vanilla HTML/CSS/JS keeps the project dependency-free and build-free: any static server (or even opening the HTML file directly) runs it, which makes evaluation easy.
 
-## 2. 项目结构
+## 2. Project Structure
 
 ```
 frontend/
 ├── src/
-│   ├── index.html        # 页面结构（计算器 + 历史面板 + 后端地址配置）
+│   ├── index.html        # Page structure (calculator + history panel + API config)
 │   ├── css/
-│   │   └── style.css     # 样式与主题变量
+│   │   └── style.css     # Styles and theme variables
 │   └── js/
-│       ├── config.js     # 后端 API 地址配置
-│       ├── api.js        # 后端接口封装（calculate / history）
-│       └── app.js        # 界面交互逻辑（不含计算逻辑）
+│       ├── config.js     # Backend API base URL configuration
+│       ├── api.js        # Backend API wrapper (calculate / history)
+│       └── app.js        # UI interaction logic (no calculation logic)
 ├── README.md
 └── codestyle.md
 ```
 
-## 3. 运行环境
+## 3. Runtime Environment
 
-- 任意现代浏览器（Chrome / Edge / Firefox / Safari）
-- 无需 Node.js、无需打包构建
+- Any modern browser (Chrome / Edge / Firefox / Safari)
+- No Node.js, no bundling required
 
-## 4. 安装与启动方法
+## 4. Installation & Startup
 
-### 方式一：直接打开（最快）
+### Option A: open the file directly (fastest)
 
-用浏览器打开 `src/index.html` 即可。
+Open `src/index.html` in a browser.
 
-### 方式二：本地静态服务器（推荐，可避免个别浏览器的跨域限制）
+### Option B: local static server (recommended, avoids browser file:// restrictions)
 
 ```bash
 cd frontend/src
 python3 -m http.server 5500
-# 或：npx serve .
+# or: npx serve .
 ```
 
-然后访问 `http://127.0.0.1:5500`。
+Then visit `http://127.0.0.1:5500`.
 
-## 5. 配置说明
+## 5. Configuration
 
-前端需要知道后端服务地址：
+The front end needs to know where the back end lives:
 
-1. 启动后端服务（见 `backend/README.md`，默认 `http://127.0.0.1:8000`）。
-2. 打开前端页面，在底部「后端地址」输入框填入后端地址，点击「保存」。
-3. 右下角状态变为「已连接」即配置成功。
+1. Start the back-end service (see `backend/README.md`)
+2. Open the front end and set "Backend API" at the bottom of the page, then click "Save"
+3. When the status at the bottom right turns to "Connected", configuration is done
 
-后端地址会保存在浏览器 `localStorage` 中，刷新后仍然有效。默认地址为 `http://127.0.0.1:8000`（定义在 `src/js/config.js` 的 `DEFAULT_API_BASE`）。
+The API base URL is stored in `localStorage` and survives reloads. The default value is defined by `DEFAULT_API_BASE` in `src/js/config.js` (it points to the deployed cloud back end out of the box; change it to `http://127.0.0.1:8000` for local development).
 
-## 6. 前后端连接方式
+## 6. Front-End / Back-End Integration
 
-前端通过 Fetch API 以 JSON 格式调用后端 REST 接口：
+The front end talks to the back end with JSON over the Fetch API:
 
-| 功能 | 请求 | 说明 |
+| Feature | Request | Notes |
 | --- | --- | --- |
-| 计算 | `POST /api/calculate` | 发送表达式，后端计算并入库后返回结果 |
-| 查历史 | `GET /api/history` | 从后端数据库读取全部记录 |
-| 删记录 | `DELETE /api/history/{id}` | 删除指定记录 |
-| 清空 | `DELETE /api/history` | 清空全部（扩展功能） |
+| Calculate | `POST /api/calculate` | Sends the expression; the back end evaluates, persists and returns the result |
+| Read history | `GET /api/history` | Reads all records from the back-end database |
+| Delete record | `DELETE /api/history/{id}` | Deletes one record |
+| Clear all | `DELETE /api/history` | Clears everything (extended feature) |
 
-后端已开启 CORS，前端可跨域直接访问。若后端未启动，界面会提示「无法连接后端服务」，且无法得到任何计算结果——这正是前后端分离架构的验证方式。
+CORS is enabled on the back end, so the front end can call it cross-origin directly. If the back end is down, the page shows "Cannot connect to the backend..." and cannot produce any result — exactly what the front-end / back-end separation requirement asks for.
 
-## 7. 功能清单
+## 7. Feature List
 
-- 基础四则运算（+ − × ÷）、括号、小数、一元正负号
-- 复合表达式计算（由后端按优先级求值）
-- 错误提示（非法表达式、除零等，展示后端返回的错误信息）
-- 计算历史展示（来自后端数据库，刷新不丢失）
-- 删除指定历史记录 / 清空全部历史
-- 点击历史记录可回填表达式
-- 键盘快捷键（数字、运算符、Enter 计算、Backspace 删除、Esc 清空）
-- 明暗主题切换
+- Basic arithmetic (+ - x /), parentheses, decimals, unary plus/minus
+- Compound expressions (evaluated on the back end with correct precedence)
+- Error messages (invalid expression, division by zero, ... as returned by the back end)
+- Calculation history from the back-end database (survives reloads)
+- Delete one history record / clear all history
+- Click a history entry to refill the expression
+- Keyboard shortcuts (digits, operators, Enter to calculate, Backspace to delete, Esc to clear)
+- Light / dark theme toggle
+
+## 8. Screenshots
+
+See `../blog/screenshots/` for 14 real product screenshots used in the assignment blog.

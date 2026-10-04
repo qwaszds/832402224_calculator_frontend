@@ -1,18 +1,18 @@
-# 前端代码规范（codestyle.md）
+# Front-End Code Standard (codestyle.md)
 
-## 规范来源
+## Source of the Standard
 
-本项目前端使用原生 JavaScript 编写，代码规范以 **Google JavaScript Style Guide** 为基准，并参考 **Airbnb JavaScript Style Guide** 的最佳实践。
+The front end is written in vanilla JavaScript. This code standard is based on the **Google JavaScript Style Guide**, with best practices from the **Airbnb JavaScript Style Guide**.
 
 - Google JavaScript Style Guide: <https://google.github.io/styleguide/jsguide.html>
 - Airbnb JavaScript Style Guide: <https://github.com/airbnb/javascript>
 
-## 1. 代码布局
+## 1. Code Layout
 
-- 缩进：**2 个空格**，禁止使用 Tab。
-- 每行最大长度：**100 字符**，超长时换行对齐。
-- 语句末尾必须写**分号**。
-- 大括号采用 1TBS 风格（左括号不换行）：
+- Indentation: **2 spaces**, never tabs.
+- Maximum line length: **100 characters**; wrap and align when exceeded.
+- Statements end with **semicolons**.
+- Braces use the 1TBS style (opening brace on the same line):
   ```js
   if (condition) {
     doSomething();
@@ -20,56 +20,56 @@
     doOther();
   }
   ```
-- 操作符两侧、逗号后加空格。
+- Spaces around operators and after commas.
 
-## 2. 命名规范
+## 2. Naming
 
-| 类型 | 风格 | 示例 |
+| Type | Style | Example |
 | --- | --- | --- |
-| 变量 / 函数 | 小驼峰（camelCase） | `expression`、`refreshHistory` |
-| 常量 | 全大写 + 下划线 | `DEFAULT_API_BASE` |
-| 类名 | 大驼峰（PascalCase） | `ApiError` |
-| 文件名 | 全小写 | `app.js`、`config.js` |
+| Variable / function | camelCase | `expression`, `refreshHistory` |
+| Constant | UPPER_CASE | `DEFAULT_API_BASE` |
+| Class | PascalCase | `ApiError` |
+| File name | lower case | `app.js`, `config.js` |
 
-- 变量命名应具有描述性，禁止 `a`、`b`、`tmp1` 等无意义命名（循环计数器除外）。
-- 布尔变量建议以 `is` / `has` / `can` 开头。
+- Variable names must be descriptive; meaningless names like `a`, `b`, `tmp1` are forbidden (loop counters excepted).
+- Boolean variables should start with `is` / `has` / `can`.
 
-## 3. 语言规范
+## 3. Language Rules
 
-- 使用 `const` / `let`，禁止使用 `var`。
-- 优先使用 `===` / `!==`，禁止 `==` / `!=`。
-- 使用模板字符串拼接字符串：`` `${getApiBase()}/api/history` ``。
-- 使用箭头函数作为回调；具名函数使用 `function` 声明。
-- 使用 `async` / `await` 处理异步，避免过深的 Promise 链。
-- 禁止使用 `eval`、`new Function` 等动态执行代码的方式。
+- Use `const` / `let`; `var` is forbidden.
+- Use `===` / `!==`; `==` / `!=` are forbidden.
+- Use template literals for string concatenation: `` `${getApiBase()}/api/history` ``.
+- Use arrow functions for callbacks; named functions use the `function` declaration.
+- Handle asynchrony with `async` / `await`; avoid deep Promise chains.
+- Never use `eval`, `new Function` or any other dynamic code execution.
 
-## 4. 注释与文档
+## 4. Comments and Documentation
 
-- 每个 `.js` 文件顶部必须有块注释，说明该文件职责。
-- 公共函数使用 JSDoc 风格注释，标注参数与返回值：
+- Every `.js` file starts with a block comment describing its responsibility.
+- Public functions use JSDoc-style comments with parameters and return values:
   ```js
   /**
-   * 提交表达式到后端计算。
+   * Submit an expression to the back end for calculation.
    * @param {string} expression
    * @returns {Promise<Object>}
    */
   ```
-- 关键业务逻辑（如前后端交互、DOM 渲染）需附行内注释说明设计意图。
+- Key business logic (front-end / back-end interaction, DOM rendering) needs inline comments explaining the design intent.
 
-## 5. DOM 与事件
+## 5. DOM and Events
 
-- DOM 操作使用 `document.getElementById` / `document.createElement` 等标准 API。
-- 用户输入渲染到页面时必须进行 **HTML 转义**（项目中 `escapeHtml`），防止 XSS。
-- 事件处理函数应短小、职责单一，复杂逻辑拆分为独立函数。
+- DOM manipulation uses standard APIs (`document.getElementById`, `document.createElement`, ...).
+- User input rendered into the page must be **HTML-escaped** (see `escapeHtml` in the project) to prevent XSS.
+- Event handlers stay short and single-purpose; extract complex logic into functions.
 
-## 6. 错误处理
+## 6. Error Handling
 
-- 所有 `fetch` 请求必须 `try / catch`，网络异常给用户友好提示。
-- 后端返回的 `success: false` 必须展示 `message`，不得静默失败。
+- Every `fetch` call is wrapped in `try / catch`; network failures show a friendly message.
+- When the back end returns `success: false`, the `message` must be displayed; silent failure is forbidden.
 
-## 7. 格式化与检查工具
+## 7. Formatting and Linting
 
-推荐：
+Recommended:
 
 ```bash
 npm install --save-dev eslint prettier
@@ -77,8 +77,8 @@ npx eslint src/js/
 npx prettier --write src/
 ```
 
-## 8. 其他约定
+## 8. Other Conventions
 
-- 样式与逻辑分离：HTML / CSS / JS 各自独立文件，不在 HTML 中内联脚本与样式。
-- 界面文案使用中文，代码注释使用中文，标识符使用英文。
-- 提交信息（commit message）使用英文祈使句，如 `Add keyboard shortcuts`。
+- Separate concerns: HTML / CSS / JS live in their own files; no inline scripts or styles in HTML.
+- UI text, code comments and identifiers all use English.
+- Commit messages use the English imperative mood, e.g. `Add keyboard shortcuts`.
